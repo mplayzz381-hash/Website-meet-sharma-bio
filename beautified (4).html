@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meet Sharma | Bio Hub</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+    :root {
+      --bg: #f5f5f7;
+      --card-bg: #ffffff;
+      --card-border: rgba(0, 0, 0, 0.08);
+      --text: #18181b;
+      --text-muted: #71717a;
+      --accent: #c5a059;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 24px 16px 60px;
+      position: relative;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Top Action Bar */
+    .top-bar {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .action-btn {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:hover {
+      background: var(--text);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Profile Section */
+    .profile-card {
+      text-align: center;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 16px;
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ffffff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .badge {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      background: var(--text);
+      color: #ffffff;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .verified-icon {
+      color: #0095f6;
+      font-size: 18px;
+    }
+
+    .profile-bio {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    /* Search Box */
+    .search-box {
+      width: 100%;
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      transition: all 0.3s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+    }
+
+    /* Category Filter Tabs */
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      scrollbar-width: none;
+    }
+
+    .category-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+      transition: all 0.3s;
+    }
+
+    .tab-btn.active,
+    .tab-btn:hover {
+      background: var(--text);
+      color: #ffffff;
+      border-color: var(--text);
+    }
+
+    /* Link Cards */
+    .links-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--text);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .link-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .link-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .link-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      background: #f8f8fa;
+      border: 1px solid var(--card-border);
+      flex-shrink: 0;
+    }
+
+    .link-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .link-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .link-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .link-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      color: var(--text);
+      background: #f0f0f2;
+    }
+
+    .open-arrow {
+      color: var(--text-muted);
+      font-size: 14px;
+      transition: transform 0.3s;
+    }
+
+    .link-card:hover .open-arrow {
+      transform: translateX(3px) translateY(-3px);
+      color: var(--text);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 24px;
+      width: 90%;
+      max-width: 320px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      margin: 16px 0;
+      padding: 12px;
+      background: #f8f8fa;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--text);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      z-index: 99;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    </style>
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <!-- Top Action Bar -->
+      <div class="top-bar">
+        <button class="action-btn" onclick="openQRModal()" title="QR Code">
+          <i class="fa-solid fa-qrcode"></i>
+        </button>
+        <button class="action-btn" onclick="shareBio()" title="Share Link">
+          <i class="fa-solid fa-share-nodes"></i>
+        </button>
+      </div>
+
+      <!-- Profile Info -->
+      <div class="profile-card">
+        <div class="avatar-wrapper">
+          <img src="https://imgh.in/host/t2shho" alt="Profile Logo" class="avatar-img" />
+          <div class="badge"><i class="fa-solid fa-bolt"></i></div>
+        </div>
+        <h1 class="profile-name">
+          Meet Sharma <i class="fa-solid fa-circle-check verified-icon"></i>
+        </h1>
+        <p class="profile-bio">Creator • Gamer • Web Developer & Editor 🚀</p>
+      </div>
+
+      <!-- Search Input -->
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search links..." oninput="filterLinks()" />
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="category-tabs">
+        <button class="tab-btn active" onclick="setCategory('all', this)">All</button>
+        <button class="tab-btn" onclick="setCategory('website', this)">🌐 Websites</button>
+        <button class="tab-btn" onclick="setCategory('gaming', this)">🎮 Gaming</button>
+        <button class="tab-btn" onclick="setCategory('editing', this)">🎬 Editing</button>
+      </div>
+
+      <!-- Links List -->
+      <div class="links-wrapper" id="linksList">
+
+        <!-- YT Ranking Hub -->
+        <a href="https://yt-ranking-hub.netlify.app/" target="_blank" class="link-card" data-category="website" data-title="yt ranking hub">
+          <div class="link-left">
+            <div class="link-icon-box" style="color: #0070f3;">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div class="link-info">
+              <span class="link-title">YT Ranking Hub</span>
+              <span class="link-desc">SEO & YouTube Analytics Web Tool</span>
+            </div>
+          </div>
+          <div class="link-actions">
+            <button class="copy-btn" onclick="copyLink(event, 'https://yt-ranking-hub.netlify.app/')" title="Copy Link"><i class="fa-regular fa-copy"></i></button>
+            <i class="fa-solid fa-arrow-up-right-from-square open-arrow"></i>
+          </div>
+        </a>
+
+        <!-- Agni Labs -->
+        <a href="https://agni-labs.netlify.app/" target="_blank" class="link-card" data-category="website" data-title="agni labs">
+          <div class="link-left">
+            <div class="link-icon-box" style="color: #e11d48;">
+              <i class="fa-solid fa-flask"></i>
+            </div>
+            <div class="link-info">
+              <span class="link-title">Agni Labs</span>
+              <span class="link-desc">Tech & Dev Projects Workspace</span>
+            </div>
+          </div>
+          <div class="link-actions">
+            <button class="copy-btn" onclick="copyLink(event, 'https://agni-labs.netlify.app/')" title="Copy Link"><i class="fa-regular fa-copy"></i></button>
+            <i class="fa-solid fa-arrow-up-right-from-square open-arrow"></i>
+          </div>
+        </a>
+
+        <!-- Meet Store IO -->
+        <a href="https://meetstoreio.netlify.app/" target="_blank" class="link-card" data-category="website" data-title="meet store io">
+          <div class="link-left">
+            <div class="link-icon-box" style="color: #10b981;">
+              <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+            <div class="link-info">
+              <span class="link-title">Meet Store IO</span>
+              <span class="link-desc">Official Digital Storefront</span>
+            </div>
+          </div>
+          <div class="link-actions">
+            <button class="copy-btn" onclick="copyLink(event, 'https://meetstoreio.netlify.app/')" title="Copy Link"><i class="fa-regular fa-copy"></i></button>
+            <i class="fa-solid fa-arrow-up-right-from-square open-arrow"></i>
+          </div>
+        </a>
+
+        <!-- YouTube Gaming -->
+        <a href="https://youtube.com/@formeet1?si=EllXCXKLuidXYf2j" target="_blank" class="link-card" data-category="gaming" data-title="formeet youtube gaming">
+          <div class="link-left">
+            <div class="link-icon-box" style="color: #ff0000;">
+              <i class="fa-brands fa-youtube"></i>
+            </div>
+            <div class="link-info">
+              <span class="link-title">FORMEET Gaming</span>
+              <span class="link-desc">Official YouTube Gaming Channel</span>
+            </div>
+          </div>
+          <div class="link-actions">
+            <button class="copy-btn" onclick="copyLink(event, 'https://youtube.com/@formeet1?si=EllXCXKLuidXYf2j')" title="Copy Link"><i class="fa-regular fa-copy"></i></button>
+            <i class="fa-solid fa-arrow-up-right-from-square open-arrow"></i>
+          </div>
+        </a>
+
+        <!-- Discord -->
+        <a href="https://discord.gg/gh2XUXdV" target="_blank" class="link-card" data-category="gaming" data-title="discord community server">
+          <div class="link-left">
+            <div class="link-icon-box" style="color: #5865F2;">
+              <i class="fa-brands fa-discord"></i>
+            </div>
+            <div class="link-info">
+              <span class="link-title">Discord Community</span>
+              <span class="link-desc">Join our Official Discord Server</span>
+            </div>
+          </div>
+          <div class="link-actions">
+            <button class="copy-btn" onclick="copyLink(event, 'https://discord.gg/gh2XUXdV')" title="Copy Link"><i class="fa-regular fa-copy"></i></button>
+            <i class="fa-solid fa-arrow-up-right-from-square open-arrow"></i>
+          </div>
+        </a>
+
+        <!-- Editing Instagram -->
+        <a href="https://www.instagram.com/meetclipz5?exln=b3JwZmhqcG9odWh1" target="_blank" class="link-card" data-category="editing" data-title="meetclipz5 instagram editing account">
+          <div class="link-left">
+            <div class="link-icon-box" style="color: #E1306C;">
+              <i class="fa-brands fa-instagram"></i>
+            </div>
+            <div class="link-info">
+              <span class="link-title">MeetClipz5</span>
+              <span class="link-desc">Official Instagram Editing Portfolio</span>
+            </div>
+          </div>
+          <div class="link-actions">
+            <button class="copy-btn" onclick="copyLink(event, 'https://www.instagram.com/meetclipz5?exln=b3JwZmhqcG9odWh1')" title="Copy Link"><i class="fa-regular fa-copy"></i></button>
+            <i class="fa-solid fa-arrow-up-right-from-square open-arrow"></i>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- QR Modal -->
+    <div class="modal-overlay" id="qrModal">
+      <div class="modal-box">
+        <i class="fa-solid fa-xmark close-modal" onclick="closeQRModal()"></i>
+        <h3 style="margin-bottom: 8px;">Scan QR Code</h3>
+        <p style="font-size: 12px; color: var(--text-muted);">Share or scan to open Bio Link instantly</p>
+        <div id="qrcode"></div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Link copied to clipboard!</div>
+
+    <script>
+    let currentCategory = 'all';
+
+    function copyLink(e, url) {
+      e.preventDefault();
+      e.stopPropagation();
+      navigator.clipboard.writeText(url).then(() => {
+        showToast("Link copied to clipboard!");
+      });
+    }
+
+    function shareBio() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Meet Sharma | Link in Bio',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        showToast("Bio URL copied!");
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    function setCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterLinks();
+    }
+
+    function filterLinks() {
+      const searchVal = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.link-card');
+
+      cards.forEach(card => {
+        const title = card.getAttribute('data-title');
+        const category = card.getAttribute('data-category');
+
+        const matchesCat = (currentCategory === 'all' || category === currentCategory);
+        const matchesSearch = title.includes(searchVal);
+
+        if (matchesCat && matchesSearch) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    let qrGenerated = false;
+
+    function openQRModal() {
+      const modal = document.getElementById('qrModal');
+      modal.classList.add('active');
+      if (!qrGenerated) {
+        new QRCode(document.getElementById("qrcode"), {
+          text: window.location.href,
+          width: 160,
+          height: 160
+        });
+        qrGenerated = true;
+      }
+    }
+
+    function closeQRModal() {
+      document.getElementById('qrModal').classList.remove('active');
+    }
+
+    </script>
+  </body>
+
+</html>
